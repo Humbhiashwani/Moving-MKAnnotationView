@@ -32,6 +32,6 @@
 
 	IBOutlet MKMapView *_mapView; 
 }
-
+- (IBAction)btnClicked:(id)sender;
 @end
 

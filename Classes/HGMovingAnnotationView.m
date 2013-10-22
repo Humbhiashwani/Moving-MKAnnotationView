@@ -31,6 +31,9 @@
 #define POSITIONKEY @"positionAnimation"
 #define BOUNDSKEY @"boundsAnimation"
 
+#define degreesToRadians(x) (M_PI * x / 180.0)
+#define radiandsToDegrees(x) (x * 180.0 / M_PI)
+
 @interface HGMovingAnnotationView()
 - (void) setPosition : (id) pos; 
 @end
@@ -82,36 +85,67 @@
 	[self performSelectorOnMainThread:@selector(setPosition:) withObject:[NSValue valueWithPointer:&lastReportedLocation] waitUntilDone:YES];
 }
 
-- (void) setPosition : (id) posValue; 
+- (void) setPosition : (id) posValue;
 {
-	//extract the mapPoint from this dummy (wrapper) CGPoint struct
-	MKMapPoint mapPoint = *(MKMapPoint*)[(NSValue*)posValue pointerValue];  
-	
-	//now properly convert this mapPoint to CGPoint 
-	CGPoint toPos;
-	CGFloat zoomFactor =  self.mapView.visibleMapRect.size.width / self.mapView.bounds.size.width;
-	toPos.x = mapPoint.x/zoomFactor;
-	toPos.y = mapPoint.y/zoomFactor;
-	
-	if (MKMapRectContainsPoint(self.mapView.visibleMapRect, mapPoint)) {
+    NSLog(@"set position");
+    
+    //extract the mapPoint from this dummy (wrapper) CGPoint struct
+    MKMapPoint mapPoint = *(MKMapPoint*)[(NSValue*)posValue pointerValue];
+    
+    CLLocationCoordinate2D coord = MKCoordinateForMapPoint(mapPoint);
+    CGPoint toPos;
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
+        
+        toPos = [self.mapView convertCoordinate:coord toPointToView:self.mapView];
+    }
+    else
+    {
+        CGFloat zoomFactor =  self.mapView.visibleMapRect.size.width / self.mapView.bounds.size.width;
+        toPos.x = mapPoint.x/zoomFactor;
+        toPos.y = mapPoint.y/zoomFactor;
+    }
+    
+    
+    
+    [self setTransform:CGAffineTransformMakeRotation([self getHeadingForDirectionFromCoordinate:MKCoordinateForMapPoint(previousPoint) toCoordinate: MKCoordinateForMapPoint(mapPoint)])];
+    
+    if (MKMapRectContainsPoint(self.mapView.visibleMapRect, mapPoint)) {
+        
+        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
+        
+        animation.fromValue = [NSValue valueWithCGPoint:self.center];
+        animation.toValue = [NSValue valueWithCGPoint:toPos];
+        animation.duration = 1.0;
+        animation.delegate = self;
+        animation.fillMode = kCAFillModeForwards;
+        //[self.layer removeAllAnimations];
+        [self.layer addAnimation:animation forKey:POSITIONKEY];
+        
+        //NSLog(@"setPosition ANIMATED %x from (%f, %f) to (%f, %f)", self, self.center.x, self.center.y, toPos.x, toPos.y);
+    }
+    
+    self.center = toPos;
+    
+    previousPoint = mapPoint;
+}
 
-		CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
-		
-		animation.fromValue = [NSValue valueWithCGPoint:self.center];
-		animation.toValue = [NSValue valueWithCGPoint:toPos];	
-		animation.duration = 0.3;
-		animation.delegate = self;
-		animation.fillMode = kCAFillModeForwards;
-		//[self.layer removeAllAnimations];
-		[self.layer addAnimation:animation forKey:POSITIONKEY];
-		
-		//NSLog(@"setPosition ANIMATED %x from (%f, %f) to (%f, %f)", self, self.center.x, self.center.y, toPos.x, toPos.y);
-	}	
-	
-	self.center = toPos;
-
-
-	
+- (float)getHeadingForDirectionFromCoordinate:(CLLocationCoordinate2D)fromLoc toCoordinate:(CLLocationCoordinate2D)toLoc
+{
+    float fLat = degreesToRadians(fromLoc.latitude);
+    float fLng = degreesToRadians(fromLoc.longitude);
+    float tLat = degreesToRadians(toLoc.latitude);
+    float tLng = degreesToRadians(toLoc.longitude);
+    
+    float degree = atan2(sin(tLng-fLng)*cos(tLat), cos(fLat)*sin(tLat)-sin(fLat)*cos(tLat)*cos(tLng-fLng));
+    
+    float deg  = radiandsToDegrees(degree);
+    
+    
+    NSLog(@"%f",deg);
+    
+    
+    return degreesToRadians(deg);
+    
 }
 
 

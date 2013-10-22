@@ -24,6 +24,7 @@
 		5EB32B30132E407500C40E38 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EB32B2F132E407500C40E38 /* MapKit.framework */; };
 		5EB32B32132E408500C40E38 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EB32B31132E408500C40E38 /* CoreLocation.framework */; };
 		5EB32B36132E409B00C40E38 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EB32B35132E409B00C40E38 /* QuartzCore.framework */; };
+		6461E1A918166EC3002650EF /* Painted_sportscar___top_view_by_balagehun1991.png in Resources */ = {isa = PBXBuildFile; fileRef = 6461E1A818166EC3002650EF /* Painted_sportscar___top_view_by_balagehun1991.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		5EB32B2F132E407500C40E38 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		5EB32B31132E408500C40E38 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		5EB32B35132E409B00C40E38 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		6461E1A818166EC3002650EF /* Painted_sportscar___top_view_by_balagehun1991.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Painted_sportscar___top_view_by_balagehun1991.png"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* HGMovingAnnotationSample-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "HGMovingAnnotationSample-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,6 +76,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				6461E1A818166EC3002650EF /* Painted_sportscar___top_view_by_balagehun1991.png */,
 				5EB32AFA132E2EF600C40E38 /* HGMapPath.h */,
 				5EB32AFB132E2EF600C40E38 /* HGMapPath.m */,
 				5EB32AE8132E277700C40E38 /* HGMovingAnnotation.h */,
@@ -200,6 +203,7 @@
 				5E84CEE3132E5A0400860C58 /* path.nmea in Resources */,
 				5E84CEE7132E5A2100860C58 /* symbol-moving-annotation.png in Resources */,
 				5E84CEE8132E5A2100860C58 /* symbol-moving-annotation@2x.png in Resources */,
+				6461E1A918166EC3002650EF /* Painted_sportscar___top_view_by_balagehun1991.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,6 +236,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HGMovingAnnotationSample_Prefix.pch;
 				INFOPLIST_FILE = "HGMovingAnnotationSample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = HGMovingAnnotationSample;
 			};
 			name = Debug;
@@ -244,6 +249,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HGMovingAnnotationSample_Prefix.pch;
 				INFOPLIST_FILE = "HGMovingAnnotationSample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = HGMovingAnnotationSample;
 				VALIDATE_PRODUCT = YES;
 			};

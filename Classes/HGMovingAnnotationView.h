@@ -32,8 +32,10 @@
 	MKMapPoint lastReportedLocation;
 	BOOL animating;
 	BOOL observingMovement;
+    MKMapPoint previousPoint;
+
 }
-@property (nonatomic, retain) MKMapView* mapView; 
+@property (nonatomic, retain) MKMapView* mapView;
 
 
 

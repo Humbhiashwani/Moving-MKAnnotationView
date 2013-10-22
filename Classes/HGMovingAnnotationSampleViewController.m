@@ -110,24 +110,50 @@
 	[movingObject start];
 }
 
+- (IBAction)btnClicked:(id)sender {
+    NSString *nmeaLogPath = [[NSBundle mainBundle] pathForResource:@"path" ofType:@"nmea"];
+	HGMapPath *path = [[HGMapPath alloc] initFromFile:nmeaLogPath];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addCar:) name:kPathLoadedNotification object:path];
+    
+}
+
+- (void) addCar : (NSNotification*) notification
+{
+	// initialize our moving object
+	HGMapPath *path = (HGMapPath*)[notification object];
+	HGMovingAnnotation *movingObject = [[[HGMovingAnnotation alloc] initWithMapPath:path] autorelease]; //the annotation retains its path
+	[path release];
+    
+	// add the annotation to the map
+	[_mapView addAnnotation:movingObject];
+	
+	// zoom the map around the moving object
+	MKCoordinateSpan span = MKCoordinateSpanMake(0.01, 0.01);
+	MKCoordinateRegion region = MKCoordinateRegionMake(MKCoordinateForMapPoint(movingObject.currentLocation), span);
+	[_mapView setRegion:region animated:YES];
+    [movingObject start];
+    
+	// start moving the object
+}
+
+
 
 #pragma mark -
 #pragma mark MKMapViewDelegate
 
-- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation;
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(HGMovingAnnotation*)annotation;
 {
-	static NSString *kMovingAnnotationViewId = @"HGMovingAnnotationView";
+    NSString *kMovingAnnotationViewId = [NSString stringWithFormat:@"%@",annotation.title];
 	
 	HGMovingAnnotationView *annotationView = (HGMovingAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:kMovingAnnotationViewId];
 	if (!annotationView) {
 		annotationView = [[HGMovingAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:kMovingAnnotationViewId];
-	}
+    }
 	
-	//configure the annotation view 
-	annotationView.image = [UIImage imageNamed:@"symbol-moving-annotation.png"];
-	annotationView.bounds = CGRectMake(0, 0, 20, 20); //initial bounds (default)
+	//configure the annotation view
+	annotationView.image = [UIImage imageNamed:@"Painted_sportscar___top_view_by_balagehun1991.png"];
+	annotationView.bounds = CGRectMake(0, 0, 10, 22.5); //initial bounds (default)
 	annotationView.mapView = mapView;
-	
 	return annotationView;
 	
 }
