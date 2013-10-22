@@ -2,7 +2,7 @@
 
 This sample iPhone project uses HGMovingAnnotation and HGMovingAnnotationView to show moving annotations on a map. 
 
-![](https://github.com/100grams/Moving-MKAnnotationView/raw/master/Screenshots/HGMovingAnnotation.png) 
+![](https://github.com/pratikbhiyani/Moving-MKAnnotationView/blob/master/Classes/Painted_sportscar___top_view_by_balagehun1991.png) 
 
 
 HGMovingAnnotation 
